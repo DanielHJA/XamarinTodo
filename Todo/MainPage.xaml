@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Todo.MainPage"
+             Title="Todo List">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Clicked="AddToolbarItem_Clicked" />
+    </ContentPage.ToolbarItems>
+
+    <StackLayout Margin="20, 20, 20, 20" Spacing="5">
+       <ListView x:Name="listview"
+                 ItemsSource="{Binding Items}"
+                 HasUnevenRows="True"
+                 HorizontalOptions="Fill"
+                 VerticalOptions="Fill"
+                 ItemTapped="listview_ItemTapped"
+                 ItemSelected="listview_ItemSelected"
+                 >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                   <ViewCell.ContextActions>
+                                        <MenuItem Clicked="OnDelete"
+                                                  CommandParameter="{Binding .}"
+                                                  Text="Delete"
+                                                  IsDestructive="True"/>
+                                    </ViewCell.ContextActions>
+                                <Grid Padding="5">
+                                     <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="10" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.ColumnSpan="2"
+                                        Text="{Binding name}"
+                                        FontSize="24"
+                                        BackgroundColor="White"
+                                        FontAttributes="Bold"
+                                        TextColor="Black"/>
+
+                                     <Label
+                                        Grid.Row="1"
+                                        Grid.ColumnSpan="2"
+                                        Text="{Binding date, StringFormat='{0:MMMM dd, yyyy}'}"
+                                        FontSize="15"
+                                        BackgroundColor="White"
+                                        FontAttributes="Bold"
+                                        TextColor="Gray"/>
+
+                                       <Image
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        Source="red_dot.png"
+                                        Aspect="AspectFit"
+                                        HeightRequest="5"
+                                        WidthRequest="5">
+                                            <Image.Triggers>
+                                                <DataTrigger TargetType="Image" Binding="{Binding completed}" Value="True">
+                                                    <Setter Property="Source" Value="green_dot.png" />
+                                                </DataTrigger>
+                                            </Image.Triggers>
+                                        </Image>
+
+                                    </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+    </StackLayout>
+</ContentPage>
