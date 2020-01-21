@@ -21,5 +21,6 @@
     <Compile Remove="TodoItem.cs" />
     <Compile Remove="PopTaskView.cs" />
     <Compile Remove="PopupView.xaml.cs" />
+    <Compile Remove="Constants.cs" />
   </ItemGroup>
 </Project>

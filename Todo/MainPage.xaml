@@ -1,81 +1,151 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
-             x:Class="Todo.MainPage"
-             Title="Todo List">
-    
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                mc:Ignorable="d"
+                x:Class="Todo.MainPage"
+                Title="Todo List">
+
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" Clicked="AddToolbarItem_Clicked" />
+        <ToolbarItem x:Name="NameLabel" Text="Add" Clicked="AddToolbarItem_Clicked" />
     </ContentPage.ToolbarItems>
 
     <StackLayout Margin="20, 20, 20, 20" Spacing="5">
-       <ListView x:Name="listview"
-                 ItemsSource="{Binding Items}"
-                 HasUnevenRows="True"
-                 HorizontalOptions="Fill"
-                 VerticalOptions="Fill"
-                 ItemTapped="listview_ItemTapped"
-                 ItemSelected="listview_ItemSelected"
-                 >
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                   <ViewCell.ContextActions>
-                                        <MenuItem Clicked="OnDelete"
-                                                  CommandParameter="{Binding .}"
-                                                  Text="Delete"
-                                                  IsDestructive="True"/>
-                                    </ViewCell.ContextActions>
-                                <Grid Padding="5">
-                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="10" />
-                                    </Grid.ColumnDefinitions>
 
-                                    <Label
-                                        Grid.Row="0"
-                                        Grid.ColumnSpan="2"
-                                        Text="{Binding name}"
-                                        FontSize="24"
-                                        BackgroundColor="White"
-                                        FontAttributes="Bold"
-                                        TextColor="Black"/>
+        <Grid
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand"
+            RowSpacing="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70*"/>
+                <RowDefinition Height="8*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Text="No records to show"
+                                   FontAttributes="Bold"
+                                   FontSize="24"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="CenterAndExpand"
+                                   IsVisible="False">
+                <Label.Triggers>
+                    <DataTrigger
+                                   TargetType="Label"
+                                    Binding="{Binding Items.Count}" 
+                                    Value="0">
+                        <Setter
+                            Property="IsVisible"
+                            Value="True" />
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
 
-                                     <Label
-                                        Grid.Row="1"
-                                        Grid.ColumnSpan="2"
-                                        Text="{Binding date, StringFormat='{0:MMMM dd, yyyy}'}"
-                                        FontSize="15"
-                                        BackgroundColor="White"
-                                        FontAttributes="Bold"
-                                        TextColor="Gray"/>
+            <ListView x:Name="listview"
+                        ItemsSource="{Binding Items}"
+                        Grid.Column="0"
+                            Grid.Row="0"
+                            HasUnevenRows="True"
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Fill"
+                            ItemTapped="listview_ItemTapped"
+                            ItemSelected="listview_ItemSelected"
+                            IsVisible="True">
+                <ListView.Triggers>
+                    <DataTrigger
+                                   TargetType="ListView"
+                                    Binding="{Binding Items.Count}" 
+                                    Value="0">
+                        <Setter
+                                     Property="IsVisible"
+                                     Value="False" />
+                    </DataTrigger>
+                </ListView.Triggers>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.ContextActions>
+                                <MenuItem
+                                    Clicked="OnDelete"
+                                    CommandParameter="{Binding .}"
+                                    Text="Delete"
+                                    IsDestructive="True"/>
+                            </ViewCell.ContextActions>
+                            <Grid Padding="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="10" />
+                                </Grid.ColumnDefinitions>
 
-                                       <Image
-                                        Grid.Row="0"
-                                        Grid.Column="2"
-                                        Source="red_dot.png"
-                                        Aspect="AspectFit"
-                                        HeightRequest="5"
-                                        WidthRequest="5">
-                                            <Image.Triggers>
-                                                <DataTrigger TargetType="Image" Binding="{Binding completed}" Value="True">
-                                                    <Setter Property="Source" Value="green_dot.png" />
-                                                </DataTrigger>
-                                            </Image.Triggers>
-                                        </Image>
+                                <Label
+                                            Grid.Row="0"
+                                            Grid.ColumnSpan="2"
+                                            Text="{Binding name}"
+                                            FontSize="24"
+                                            BackgroundColor="White"
+                                            FontAttributes="Bold"
+                                            TextColor="Black"/>
 
-                                    </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                                <Label
+                                            Grid.Row="1"
+                                            Grid.ColumnSpan="2"
+                                            Text="{Binding date, StringFormat='{0:yyyy-MM-dd}'}"
+                                            FontSize="15"
+                                            BackgroundColor="White"
+                                            FontAttributes="Bold"
+                                            TextColor="Gray"/>
+
+                                <Image
+                                            Grid.Row="0"
+                                            Grid.Column="2"
+                                            Source="red_dot.png"
+                                            Aspect="AspectFit"
+                                            HeightRequest="5"
+                                            WidthRequest="5">
+                                    <Image.Triggers>
+                                        <DataTrigger
+                                                TargetType="Image"
+                                                Binding="{Binding completed}"
+                                                Value="True">
+                                            <Setter
+                                                Property="Source"
+                                                Value="green_dot.png" />
+                                        </DataTrigger>
+                                    </Image.Triggers>
+                                </Image>
+
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <StackLayout
+            Grid.Column="0"
+            Grid.Row="1">
+                <Grid ColumnSpacing="8"
+                  HorizontalOptions="FillAndExpand"
+                  VerticalOptions="FillAndExpand">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50*" />
+                        <ColumnDefinition Width="50*" />
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        Text="Button 1"
+                        Grid.Column="0"
+                        Style="{ StaticResource buttonStyle }"/>
+                    <Button
+                        Text="Button 2"
+                        Grid.Column="1"
+                        Style="{ StaticResource buttonStyleRed }"/>
+                </Grid>
+            </StackLayout>
+        </Grid>
     </StackLayout>
 </ContentPage>

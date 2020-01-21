@@ -12,7 +12,7 @@
             PositionOut="Center"
             ScaleIn="1.2"
             ScaleOut="0.8"
-            DurationIn="400"
+            DurationIn="300"
             DurationOut="300"
             EasingIn="SinOut"
             EasingOut="SinIn"

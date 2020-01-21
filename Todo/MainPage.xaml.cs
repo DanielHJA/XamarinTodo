@@ -23,6 +23,8 @@ namespace Todo
             InitializeComponent();
             BindingContext = viewModel;
             viewModel.Read();
+            ToolbarItem toolbarItem = this.FindByName("NameLabel") as ToolbarItem;
+            toolbarItem.Text = "New";
         }
 
         void listview_ItemTapped(Object sender, ItemTappedEventArgs e)
@@ -57,7 +59,7 @@ namespace Todo
 
         void OnDelete(Object sender, EventArgs e)
         {
-            var mi = ((MenuItem)sender);
+            MenuItem mi = sender as MenuItem;//((MenuItem)sender);
             TodoObject item = mi.CommandParameter as TodoObject;
             viewModel.Delete(item);
             viewModel.Read();
