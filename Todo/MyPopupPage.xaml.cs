@@ -14,9 +14,7 @@ namespace Todo
         public MyPopupPage()
         {
             InitializeComponent();
-            viewModel.activityDate = DateTime.Now;
             BindingContext = viewModel;
-
         }
 
         protected override void OnAppearing()

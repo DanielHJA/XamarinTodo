@@ -1,31 +1,18 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Realms;
 using Xamarin.Forms;
 
 namespace Todo
 {
-    public class MainPageViewModel<T>: BindableObject where T : RealmObject
+    public class MainPageViewModel<T>: BindableObject, INotifyPropertyChanged where T : RealmObject
     {
 
         RealmManager<T> manager = new RealmManager<T>();
-        private ObservableCollection<T> _Items { get; set; }
-        public ObservableCollection<T> Items
-        {
-            get
-            {
-                return _Items;
-            }
-            set
-            {
-                if (value != _Items)
-                {
-                    _Items = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+        public ObservableCollection<T> Items { get; private set; }
+
 
         public MainPageViewModel(){
             var token = manager.realm.All<T>().SubscribeForNotifications((sender, changes, error) =>
@@ -36,6 +23,7 @@ namespace Todo
 
         public void Read() {
             Items = manager.Read();
+            OnPropertyChanged("Items");
         }
 
         public void ToggleCompleted(TodoObject item) {

@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     x:Class="Todo.MyPopupPage">
     <!--You can set an animation in the xaml file or in the csharp code behind-->
     <pages:PopupPage.Animation>
@@ -46,7 +47,7 @@
                    TextColor="Gray"
                    FontAttributes="Bold"
                    FontSize="13"/>
-            <DatePicker Date="{Binding Path=activityDate, Mode=TwoWay}" />
+            <DatePicker x:Name="picker" Date="{Binding Path=activityDate, Mode=OneWayToSource, TargetNullValue={x:Static sys:DateTime.Now}, FallbackValue={x:Static sys:DateTime.Now}}" />
         </StackLayout>
 
         <Button
